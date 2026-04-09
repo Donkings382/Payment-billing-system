@@ -25,13 +25,13 @@ const mainItems = [
     label: "Invoices",
     icon: <ReceiptIcon fontSize="small" />,
     path: "/invoices",
-    status: "partial",
+    status: "full",
   },
   {
     label: "Payments",
     icon: <PaymentsIcon fontSize="small" />,
     path: "/payments",
-    status: "partial",
+    status: "full",
   },
   {
     label: "Dashboard",
@@ -58,12 +58,14 @@ export default function Sidebar({ className = "w-64" }: SidebarProps) {
     >
       {/* Logo */}
       <div className="h-16 px-6 border-b border-slate-200 flex items-center">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600">
-              <i className="text-white font-bold text-lg italic">LP</i>
-            </div>
-            <span className="text-slate-800 font-semibold text-lg">thelaunchpad-pay&bill</span>
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600">
+            <i className="text-white font-bold text-lg italic">LP</i>
           </div>
+          <span className="text-slate-800 font-semibold text-lg">
+            thelaunchpad-pay&bill
+          </span>
+        </div>
       </div>
 
       {/* Navigation */}
@@ -88,24 +90,14 @@ export default function Sidebar({ className = "w-64" }: SidebarProps) {
                   {item.icon}
                   <div className="flex min-w-0 flex-1 items-center justify-between gap-2">
                     <span>{item.label}</span>
-                    {item.status === "partial" && (
-                      <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
-                        Partial
-                      </span>
-                    )}
+                    {/* No partial status indicator */}
                   </div>
                 </NavLink>
               </li>
             ))}
           </ul>
 
-          <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-500">
-            <p className="font-semibold text-slate-700">Backend coverage</p>
-            <p className="mt-1">Invoices: missing edit/delete endpoints.</p>
-            <p className="mt-1">
-              Payments: no general list-all payments endpoint yet.
-            </p>
-          </div>
+          {/* Backend coverage message removed */}
         </div>
       </nav>
 
