@@ -1,4 +1,7 @@
-import { Search as SearchIcon, Notifications as NotificationsIcon } from '@mui/icons-material';
+import {
+  Search as SearchIcon,
+  Notifications as NotificationsIcon,
+} from "@mui/icons-material";
 
 interface NavbarProps {
   title: string;
@@ -12,11 +15,13 @@ export default function Navbar({
   title,
   breadcrumb,
   onAddClick,
-  addButtonText = 'Add New',
-  className = 'h-16'
+  addButtonText = "Add New",
+  className = "h-16",
 }: NavbarProps) {
   return (
-    <header className={`bg-white border-b border-dashboard-border px-6 ${className} flex items-center justify-between`}>
+    <header
+      className={`bg-white border-b border-dashboard-border px-6 ${className} flex items-center justify-between`}
+    >
       <div>
         <h1 className="text-2xl font-bold text-slate-800">{title}</h1>
         {breadcrumb.length > 0 && (
@@ -24,7 +29,13 @@ export default function Navbar({
             {breadcrumb.map((item, index) => (
               <span key={index} className="flex items-center gap-2">
                 {index > 0 && <span className="text-slate-400">›</span>}
-                <span className={index === breadcrumb.length - 1 ? 'text-primary-600 font-medium' : ''}>
+                <span
+                  className={
+                    index === breadcrumb.length - 1
+                      ? "text-primary-600 font-medium"
+                      : ""
+                  }
+                >
                   {item}
                 </span>
               </span>
@@ -44,7 +55,10 @@ export default function Navbar({
         </button>
 
         {onAddClick && (
-          <button onClick={onAddClick} className="btn-primary flex items-center gap-2">
+          <button
+            onClick={onAddClick}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg px-4 py-2 flex items-center gap-2 transition-colors"
+          >
             <span>+</span>
             {addButtonText}
           </button>

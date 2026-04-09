@@ -152,7 +152,7 @@ export default function InvoicesPage() {
           />
           <button
             type="submit"
-            className="btn-primary w-fit"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg px-4 py-2 w-fit transition-colors"
             disabled={loading}
           >
             {loading ? "Creating..." : "Create"}

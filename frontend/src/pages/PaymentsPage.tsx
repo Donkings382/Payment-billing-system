@@ -120,7 +120,11 @@ export default function PaymentsPage() {
             placeholder="Note (optional)"
             className="border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
-          <button type="submit" className="btn-primary" disabled={loading}>
+          <button
+            type="submit"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg px-4 py-2 transition-colors"
+            disabled={loading}
+          >
             {loading ? "Saving..." : "Save Payment"}
           </button>
         </form>
