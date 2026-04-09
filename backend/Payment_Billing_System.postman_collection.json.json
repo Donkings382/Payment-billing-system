@@ -1,0 +1,698 @@
+{
+  "info": {
+    "name": "Payment & Billing System",
+    "description": "Complete API collection for testing invoice, payment, and customer management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"business@example.com\",\n  \"password\": \"test123\",\n  \"organization\": \"My Test Business\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "register"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"User registered successfully\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.email).to.eql(\"business@example.com\");",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"business@example.com\",\n  \"password\": \"test123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "login"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Login successful\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Save access token\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.access_token).to.not.be.null;",
+                  "    pm.collectionVariables.set(\"auth_token\", jsonData.access_token);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Customer Management",
+      "item": [
+        {
+          "name": "Create Customer - Acme Corp",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Corporation\",\n  \"email\": \"billing@acme.com\",\n  \"phone\": \"+1-555-0101\",\n  \"address\": \"123 Business Avenue, Suite 100, New York, NY 10001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customers/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customers", ""]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Customer created\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"customer_id_1\", jsonData.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Customer - TechStart Inc",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TechStart Inc\",\n  \"email\": \"finance@techstart.com\",\n  \"phone\": \"+1-555-0102\",\n  \"address\": \"456 Innovation Drive, San Francisco, CA 94105\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customers/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customers", ""]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Customer created\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"customer_id_2\", jsonData.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Customer - Global Retail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Global Retail Group\",\n  \"email\": \"accounts@globalretail.com\",\n  \"phone\": \"+1-555-0103\",\n  \"address\": \"789 Market Street, Chicago, IL 60601\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customers/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customers", ""]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Customer created\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"customer_id_3\", jsonData.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/customers/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customers", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Single Customer",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/customers/{{customer_id_1}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customers", "{{customer_id_1}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Invoice Management",
+      "item": [
+        {
+          "name": "Create Invoice - Acme Corp (Large)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": {{customer_id_1}},\n  \"due_date\": \"2026-05-15T00:00:00\",\n  \"tax\": 10,\n  \"discount\": 100,\n  \"notes\": \"Q2 2026 Services - Web development and maintenance\",\n  \"items\": [\n    {\n      \"description\": \"Web Development - Frontend\",\n      \"quantity\": 40,\n      \"unit_price\": 150\n    },\n    {\n      \"description\": \"Web Development - Backend\",\n      \"quantity\": 35,\n      \"unit_price\": 175\n    },\n    {\n      \"description\": \"Database Optimization\",\n      \"quantity\": 10,\n      \"unit_price\": 200\n    },\n    {\n      \"description\": \"Monthly Hosting\",\n      \"quantity\": 3,\n      \"unit_price\": 99\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/invoices/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "invoices", ""]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Invoice created\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"invoice_id_1\", jsonData.id);",
+                  "    console.log(\"Invoice total: $\" + jsonData.total);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Invoice - TechStart Inc (Medium)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": {{customer_id_2}},\n  \"due_date\": \"2026-04-25T00:00:00\",\n  \"tax\": 8,\n  \"discount\": 0,\n  \"notes\": \"Cloud services and support\",\n  \"items\": [\n    {\n      \"description\": \"Cloud Infrastructure\",\n      \"quantity\": 1,\n      \"unit_price\": 2500\n    },\n    {\n      \"description\": \"Technical Support\",\n      \"quantity\": 20,\n      \"unit_price\": 85\n    },\n    {\n      \"description\": \"API Integration\",\n      \"quantity\": 5,\n      \"unit_price\": 120\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/invoices/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "invoices", ""]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Invoice created\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"invoice_id_2\", jsonData.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Invoice - Global Retail (Small)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": {{customer_id_3}},\n  \"due_date\": \"2026-05-30T00:00:00\",\n  \"tax\": 5,\n  \"discount\": 25,\n  \"notes\": \"E-commerce platform maintenance\",\n  \"items\": [\n    {\n      \"description\": \"Platform Updates\",\n      \"quantity\": 15,\n      \"unit_price\": 95\n    },\n    {\n      \"description\": \"Security Patch\",\n      \"quantity\": 1,\n      \"unit_price\": 500\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/invoices/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "invoices", ""]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Invoice created\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"invoice_id_3\", jsonData.id);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get All Invoices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/invoices/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "invoices", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Single Invoice",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/invoices/{{invoice_id_1}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "invoices", "{{invoice_id_1}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Payment Recording",
+      "item": [
+        {
+          "name": "Record Payment - Acme Corp (Partial)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice_id\": {{invoice_id_1}},\n  \"amount\": 5000,\n  \"note\": \"Initial deposit - 30% advance\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/payments/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", ""]
+            }
+          }
+        },
+        {
+          "name": "Record Payment - TechStart Inc (Full)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice_id\": {{invoice_id_2}},\n  \"amount\": 5000,\n  \"note\": \"Full payment received via wire transfer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/payments/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", ""]
+            }
+          }
+        },
+        {
+          "name": "Record Second Payment - Acme Corp",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice_id\": {{invoice_id_1}},\n  \"amount\": 3000,\n  \"note\": \"Second installment\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/payments/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", ""]
+            }
+          }
+        },
+        {
+          "name": "Get Payments for Invoice",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/payments/invoice/{{invoice_id_1}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "payments", "invoice", "{{invoice_id_1}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Dashboard & Reports",
+      "item": [
+        {
+          "name": "Get Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/dashboard",
+              "host": ["{{base_url}}"],
+              "path": ["api", "dashboard"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. AI Insights",
+      "item": [
+        {
+          "name": "Get Late Payers (>7 days)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/insights/late-payers?days_overdue=7",
+              "host": ["{{base_url}}"],
+              "path": ["api", "insights", "late-payers"],
+              "query": [
+                {
+                  "key": "days_overdue",
+                  "value": "7"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get High Debt Customers (>$2000)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/insights/high-debt?threshold=2000",
+              "host": ["{{base_url}}"],
+              "path": ["api", "insights", "high-debt"],
+              "query": [
+                {
+                  "key": "threshold",
+                  "value": "2000"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Frequent Customers (Top 5)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/insights/frequent-customers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "insights", "frequent-customers"]
+            }
+          }
+        },
+        {
+          "name": "Get Payment Trends",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/insights/payment-trends",
+              "host": ["{{base_url}}"],
+              "path": ["api", "insights", "payment-trends"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Update & Delete Operations",
+      "item": [
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Corporation Updated\",\n  \"email\": \"newbilling@acme.com\",\n  \"phone\": \"+1-555-0199\",\n  \"address\": \"999 New Address, Los Angeles, CA 90001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/customers/{{customer_id_1}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customers", "{{customer_id_1}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Customer (Optional - Use Carefully)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/customers/{{customer_id_3}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "customers", "{{customer_id_3}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customer_id_1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customer_id_2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customer_id_3",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "invoice_id_1",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "invoice_id_2",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "invoice_id_3",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
