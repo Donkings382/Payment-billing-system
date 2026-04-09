@@ -9,6 +9,12 @@ from app.services.invoice_service import calculate_invoice_totals
 
 router = APIRouter()
 
+# NOTE:
+# This router currently supports create/list/get invoice operations only.
+# Frontend requirements also need invoice edit/delete flows, so PUT and DELETE
+# endpoints should be added here before the invoice management page can be
+# fully connected end-to-end.
+
 def generate_invoice_number(db: Session, user_id: int):
     """Generate unique invoice number (INV-YYYYMMDD-XXXX)"""
     count = db.query(models.Invoice).filter(

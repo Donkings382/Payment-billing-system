@@ -4,25 +4,18 @@
   "private": true,
   "description": "React frontend for Payment and Billing System",
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^5.15.3",
+    "axios": "^1.6.2",
+    "date-fns": "^3.0.6",
+    "lucide-react": "^1.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "react-router-dom": "^6.21.1",
-    "axios": "^1.6.2",
-    "@mui/material": "^5.15.3",
-    "@mui/icons-material": "^5.15.3",
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@stripe/stripe-js": "^2.2.2",
-    "@stripe/react-stripe-js": "^2.4.0",
-    "@paypal/react-paypal-js": "^8.1.3",
-    "react-hook-form": "^7.49.2",
-    "yup": "^1.3.3",
-    "@hookform/resolvers": "^3.3.4",
     "react-hot-toast": "^2.4.1",
-    "date-fns": "^3.0.6",
+    "react-router-dom": "^6.21.1",
+    "react-scripts": "^5.0.1",
     "recharts": "^2.10.3",
-    "react-currency-input-field": "^3.8.0",
     "web-vitals": "^3.5.1"
   },
   "scripts": {
@@ -31,8 +24,8 @@
     "test": "react-scripts test",
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write src"
   },
   "eslintConfig": {
@@ -57,16 +50,24 @@
     "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "autoprefixer": "^10.4.16",
     "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.33.2",
-    "prettier": "^3.1.1"
+    "postcss": "^8.4.33",
+    "prettier": "^3.1.1",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^4.9.5"
   },
   "keywords": [
     "react",
     "payment",
     "billing",
-    "frontend"
+    "frontend",
+    "typescript",
+    "tailwindcss"
   ],
   "author": "Your Team",
   "license": "MIT"
