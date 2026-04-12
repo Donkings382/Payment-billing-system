@@ -119,3 +119,35 @@ class HighDebtCustomerResponse(BaseModel):
     customer_name: str
     total_balance: float
     unpaid_invoices_count: int
+
+class PaymentRiskFactorResponse(BaseModel):
+    name: str
+    impact: float
+    value: str
+
+class PaymentRiskInvoiceResponse(BaseModel):
+    invoice_id: int
+    invoice_number: str
+    customer_id: int
+    customer_name: str
+    due_date: datetime
+    amount_due: float
+    outstanding_balance: float
+    risk_score: float
+    risk_level: str
+    recommendation: str
+    factors: List[PaymentRiskFactorResponse]
+
+class PaymentRiskCustomerResponse(BaseModel):
+    customer_id: int
+    customer_name: str
+    unpaid_invoices_count: int
+    total_outstanding_balance: float
+    average_risk_score: float
+    highest_risk_score: float
+    risk_level: str
+
+class PaymentRiskResponse(BaseModel):
+    generated_at: datetime
+    invoice_risks: List[PaymentRiskInvoiceResponse]
+    customer_risks: List[PaymentRiskCustomerResponse]

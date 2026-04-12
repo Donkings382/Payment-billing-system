@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app import models
+from .. import models
 from datetime import datetime
 
 def calculate_invoice_totals(db: Session, invoice_id: int):

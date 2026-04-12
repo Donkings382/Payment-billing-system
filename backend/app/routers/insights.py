@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from app.database import get_db
 from app import models, schemas, auth
+from app.services.payment_risk_service import get_payment_risk_report
 
 router = APIRouter()
 
@@ -163,3 +164,12 @@ def get_payment_trends(
         "average_payment_days": round(avg_days, 1),
         "insight": "Good payment rate" if avg_days < 15 else "Slow payments - consider reminders"
     }
+
+@router.get("/payment-risk", response_model=schemas.PaymentRiskResponse)
+def get_payment_risk(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_user)
+):
+    # Keep the router thin: the rule-based scoring lives in a service so it
+    # can evolve into a real ML-backed implementation later.
+    return get_payment_risk_report(db, current_user.id)

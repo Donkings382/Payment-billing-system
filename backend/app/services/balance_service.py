@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app import models
+from .. import models
 
 def get_customer_balance(db: Session, customer_id: int):
     """Calculate total balance for a customer"""
