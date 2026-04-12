@@ -48,3 +48,44 @@ export async function getPaymentTrends() {
   const { data } = await api.get<any>("/insights/payment-trends");
   return data;
 }
+
+export interface PaymentRiskFactor {
+  name: string;
+  impact: number;
+  value: string;
+}
+
+export interface InvoiceRisk {
+  invoice_id: number;
+  invoice_number: string;
+  customer_id: number;
+  customer_name: string;
+  due_date: string;
+  amount_due: number;
+  outstanding_balance: number;
+  risk_score: number;
+  risk_level: "low" | "medium" | "high";
+  recommendation: string;
+  factors: PaymentRiskFactor[];
+}
+
+export interface CustomerRisk {
+  customer_id: number;
+  customer_name: string;
+  unpaid_invoices_count: number;
+  total_outstanding_balance: number;
+  average_risk_score: number;
+  highest_risk_score: number;
+  risk_level: "low" | "medium" | "high";
+}
+
+export interface PaymentRiskReport {
+  generated_at: string;
+  invoice_risks: InvoiceRisk[];
+  customer_risks: CustomerRisk[];
+}
+
+export async function getPaymentRisk() {
+  const { data } = await api.get<PaymentRiskReport>("/insights/payment-risk");
+  return data;
+}
