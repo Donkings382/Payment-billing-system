@@ -19,6 +19,7 @@ export default function InvoicesPage() {
     notes: "",
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +32,7 @@ export default function InvoicesPage() {
         setInvoices(inv);
         setCustomers(cust);
       } catch (e) {
-        // handle error
+        setError("Failed to load data. Please refresh the page.");
       } finally {
         setLoading(false);
       }
@@ -48,10 +49,11 @@ export default function InvoicesPage() {
     e.preventDefault();
     if (!form.customer_id || !form.amount || !form.due_date) return;
     setLoading(true);
+    setError(null);
     try {
       const invoice = await createInvoice({
         customer_id: Number(form.customer_id),
-        due_date: form.due_date,
+        due_date: form.due_date + "T00:00:00",
         tax: form.tax ? Number(form.tax) : 0,
         discount: form.discount ? Number(form.discount) : 0,
         notes: form.notes,
@@ -72,8 +74,9 @@ export default function InvoicesPage() {
         discount: "",
         notes: "",
       });
-    } catch (e) {
-      // handle error
+    } catch (e: any) {
+      const detail = e?.response?.data?.detail;
+      setError(detail ? String(detail) : "Failed to create invoice. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -81,6 +84,11 @@ export default function InvoicesPage() {
 
   return (
     <div className="space-y-6">
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-5 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
       <section className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-800 mb-4">
           Create Invoice

@@ -29,3 +29,8 @@ export async function register(payload: RegisterPayload) {
   const { data } = await api.post<AuthUser>('/register', payload);
   return data;
 }
+
+export async function getMe() {
+  const { data } = await api.get<AuthUser>('/me');
+  return data;
+}

@@ -91,6 +91,10 @@ def get_dashboard(
         recent_invoices=recent_invoices
     )
 
+@app.get("/api/me", response_model=schemas.UserResponse)
+def get_me(current_user: models.User = Depends(auth.get_current_user)):
+    return current_user
+
 @app.get("/")
 def root():
     return {"message": "Payment & Billing System API", "docs": "/docs"}
