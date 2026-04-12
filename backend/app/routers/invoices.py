@@ -56,7 +56,10 @@ def create_invoice(
     db.add(db_invoice)
     db.commit()
     db.refresh(db_invoice)
-    
+
+    # Cache the ID now — the second commit below will expire db_invoice's attributes
+    invoice_id = db_invoice.id
+
     # Add items
     for item in invoice.items:
         db_item = models.InvoiceItem(
@@ -64,16 +67,24 @@ def create_invoice(
             quantity=item.quantity,
             unit_price=item.unit_price,
             total=item.quantity * item.unit_price,
-            invoice_id=db_invoice.id
+            invoice_id=invoice_id
         )
         db.add(db_item)
-    
+
     db.commit()
-    
+
     # Recalculate totals and status
-    calculate_invoice_totals(db, db_invoice.id)
-    db.refresh(db_invoice)
-    
+    calculate_invoice_totals(db, invoice_id)
+
+    # Re-query with items eagerly loaded so response serialization doesn't
+    # trigger lazy loads after the session closes
+    db_invoice = (
+        db.query(models.Invoice)
+        .options(selectinload(models.Invoice.items))
+        .filter(models.Invoice.id == invoice_id)
+        .first()
+    )
+
     return db_invoice
 
 @router.get("/", response_model=List[schemas.InvoiceResponse])
