@@ -3,13 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from datetime import timedelta
 from typing import List
-
 from app.database import engine, get_db, Base
 from app import models, schemas, auth
 from app.routers import customers, invoices, payments, insights
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI(title="Payment & Billing System", version="1.0.0")
 

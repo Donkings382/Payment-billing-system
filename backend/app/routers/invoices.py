@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import selectinload
 from typing import List
 from datetime import datetime
 
@@ -85,6 +86,39 @@ def list_invoices(
     invoices = db.query(models.Invoice).filter(
         models.Invoice.owner_id == current_user.id
     ).offset(skip).limit(limit).all()
+    return invoices
+
+@router.get("/unpaid", response_model=List[schemas.InvoiceResponse])
+def list_unpaid_invoices(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_user)
+):
+    # Load related rows up front so response serialization does not trigger
+    # extra queries for each invoice's items and payments.
+    unpaid_statuses = [
+        models.InvoiceStatus.SENT,
+        models.InvoiceStatus.PARTIAL,
+        models.InvoiceStatus.OVERDUE,
+    ]
+
+    invoices = (
+        db.query(models.Invoice)
+        .options(
+            selectinload(models.Invoice.items),
+            selectinload(models.Invoice.payments),
+        )
+        .filter(
+            models.Invoice.owner_id == current_user.id,
+            models.Invoice.status.in_(unpaid_statuses),
+        )
+        .order_by(models.Invoice.due_date.asc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
     return invoices
 
 @router.get("/{invoice_id}", response_model=schemas.InvoiceResponse)
