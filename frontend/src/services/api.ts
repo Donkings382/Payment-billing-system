@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://69.10.44.126:8008";
+const API_BASE_URL = "/api";
 
 export const AUTH_TOKEN_STORAGE_KEY = 'payment_billing_auth_token';
 export const AUTH_USER_STORAGE_KEY = 'payment_billing_auth_user';
