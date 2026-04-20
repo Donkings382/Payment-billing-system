@@ -1,18 +1,22 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# Use SQLite for development (easy to start)
-# Change to PostgreSQL later: postgresql://user:pass@localhost/dbname
+# Use PostgreSQL in production, SQLite for local development
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./billing.db")
 
+# For PostgreSQL, remove the SQLite-specific check_same_thread
+connect_args = {}
+if "sqlite" in DATABASE_URL:
+    connect_args = {"check_same_thread": False}
+
 engine = create_engine(
-    DATABASE_URL, 
-    connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {}
+    DATABASE_URL,
+    connect_args=connect_args
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

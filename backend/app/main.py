@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -13,10 +14,12 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Payment & Billing System", version="1.0.0")
 
-# CORS for frontend
+# CORS for frontend - read from environment variable for production
+cors_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React default port
+    allow_origins=cors_origins,  # Dynamic based on environment
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
