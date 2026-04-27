@@ -16,16 +16,15 @@
 # Redirect rules for Single Page Application (SPA)
 # This ensures React Router can handle client-side routing on page refresh
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# Proxy API requests to backend
-[[redirects]]
   from = "/api/*"
   to = "https://payment-billing-system-l9bs.onrender.com/api/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 # Security headers
 [[headers]]
