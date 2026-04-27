@@ -15,11 +15,11 @@ export interface PaymentCreate {
 }
 
 export async function listPaymentsByInvoice(invoiceId: number) {
-  const { data } = await api.get<Payment[]>(`/payments/invoice/${invoiceId}`);
+  const { data } = await api.get<Payment[]>(`/api/payments/invoice/${invoiceId}`);
   return data;
 }
 
 export async function createPayment(payment: PaymentCreate) {
-  const { data } = await api.post<Payment>("/payments", payment);
+  const { data } = await api.post<Payment>("/api/payments", payment);
   return data;
 }

@@ -25,18 +25,18 @@ export interface InvoiceCreate {
 }
 
 export async function listInvoices(skip: number = 0, limit: number = 100) {
-  const { data } = await api.get<Invoice[]>("/invoices", {
+  const { data } = await api.get<Invoice[]>("/api/invoices", {
     params: { skip, limit },
   });
   return data;
 }
 
 export async function getInvoice(invoiceId: number) {
-  const { data } = await api.get<Invoice>(`/invoices/${invoiceId}`);
+  const { data } = await api.get<Invoice>(`/api/invoices/${invoiceId}`);
   return data;
 }
 
 export async function createInvoice(invoice: InvoiceCreate) {
-  const { data } = await api.post<Invoice>("/invoices", invoice);
+  const { data } = await api.post<Invoice>("/api/invoices", invoice);
   return data;
 }

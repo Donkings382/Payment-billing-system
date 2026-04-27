@@ -7,7 +7,7 @@ export interface DashboardData {
 }
 
 export async function getDashboard() {
-  const { data } = await api.get<DashboardData>("/dashboard");
+  const { data } = await api.get<DashboardData>("/api/dashboard");
   return data;
 }
 
@@ -26,26 +26,26 @@ export interface HighDebtCustomer {
 }
 
 export async function getLatePayers(days_overdue: number = 7) {
-  const { data } = await api.get<LatePayer[]>("/insights/late-payers", {
+  const { data } = await api.get<LatePayer[]>("/api/insights/late-payers", {
     params: { days_overdue },
   });
   return data;
 }
 
 export async function getHighDebtCustomers(threshold: number = 5000) {
-  const { data } = await api.get<HighDebtCustomer[]>("/insights/high-debt", {
+  const { data } = await api.get<HighDebtCustomer[]>("/api/insights/high-debt", {
     params: { threshold },
   });
   return data;
 }
 
 export async function getFrequentCustomers() {
-  const { data } = await api.get<any[]>("/insights/frequent-customers");
+  const { data } = await api.get<any[]>("/api/insights/frequent-customers");
   return data;
 }
 
 export async function getPaymentTrends() {
-  const { data } = await api.get<any>("/insights/payment-trends");
+  const { data } = await api.get<any>("/api/insights/payment-trends");
   return data;
 }
 
@@ -86,6 +86,6 @@ export interface PaymentRiskReport {
 }
 
 export async function getPaymentRisk() {
-  const { data } = await api.get<PaymentRiskReport>("/insights/payment-risk");
+  const { data } = await api.get<PaymentRiskReport>("/api/insights/payment-risk");
   return data;
 }

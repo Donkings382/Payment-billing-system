@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = "/api";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "https://payment-billing-system-l9bs.onrender.com";
 
 export const AUTH_TOKEN_STORAGE_KEY = 'payment_billing_auth_token';
 export const AUTH_USER_STORAGE_KEY = 'payment_billing_auth_user';

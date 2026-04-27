@@ -21,16 +21,16 @@ export interface AuthUser {
 }
 
 export async function login(payload: LoginPayload) {
-  const { data } = await api.post<LoginResponse>('/login', payload);
+  const { data } = await api.post<LoginResponse>('/api/login', payload);
   return data;
 }
 
 export async function register(payload: RegisterPayload) {
-  const { data } = await api.post<AuthUser>('/register', payload);
+  const { data } = await api.post<AuthUser>('/api/register', payload);
   return data;
 }
 
 export async function getMe() {
-  const { data } = await api.get<AuthUser>('/me');
+  const { data } = await api.get<AuthUser>('/api/me');
   return data;
 }

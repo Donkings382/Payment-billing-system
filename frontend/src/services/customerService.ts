@@ -16,28 +16,28 @@ export interface CustomerCreate {
 }
 
 export async function listCustomers(skip: number = 0, limit: number = 100) {
-  const { data } = await api.get<Customer[]>('/customers', {
+  const { data } = await api.get<Customer[]>('/api/customers', {
     params: { skip, limit },
   });
   return data;
 }
 
 export async function getCustomer(customerId: number) {
-  const { data } = await api.get<Customer>(`/customers/${customerId}`);
+  const { data } = await api.get<Customer>(`/api/customers/${customerId}`);
   return data;
 }
 
 export async function createCustomer(customer: CustomerCreate) {
-  const { data } = await api.post<Customer>('/customers', customer);
+  const { data } = await api.post<Customer>('/api/customers', customer);
   return data;
 }
 
 export async function updateCustomer(customerId: number, customer: CustomerCreate) {
-  const { data } = await api.put<Customer>(`/customers/${customerId}`, customer);
+  const { data } = await api.put<Customer>(`/api/customers/${customerId}`, customer);
   return data;
 }
 
 export async function deleteCustomer(customerId: number) {
-  const { data } = await api.delete(`/customers/${customerId}`);
+  const { data } = await api.delete(`/api/customers/${customerId}`);
   return data;
 }
