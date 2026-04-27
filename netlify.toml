@@ -5,7 +5,7 @@
   # Directory containing the React app source code
   base = "frontend"
   # Command to build the project
-  publish = "frontend/build"
+  publish = "build"
   command = "npm run build"
 
 # Environment variables (set these in Netlify UI for security)
@@ -23,7 +23,7 @@
 # Proxy API requests to backend
 [[redirects]]
   from = "/api/*"
-  to = "http://69.10.44.126:8008/:splat"
+  to = "https://payment-billing-system-l9bs.onrender.com/api/:splat"
   status = 200
   force = true
 

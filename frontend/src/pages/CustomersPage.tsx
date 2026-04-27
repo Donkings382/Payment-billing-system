@@ -20,21 +20,16 @@ export default function CustomersPage() {
   const [errors, setErrors] = useState<
     Partial<Record<keyof typeof emptyForm, string>>
   >({});
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     loadCustomers();
   }, []);
 
   const loadCustomers = async () => {
     try {
-      setLoading(true);
       const data = await customerService.listCustomers();
       setCustomers(data);
     } catch (error) {
       console.error("Error loading customers:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
